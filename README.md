@@ -2,6 +2,8 @@
 
 Application allowing one to create image files from a bytea data in a Postgresql database.
 
+[WORK IN PROGRESS]
+
 ## Prerequisite
 
 We use the package `psycopg2` which requires the following dependencies:
