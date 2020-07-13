@@ -1,6 +1,6 @@
 # From Binary to Image
 
-Desktopp application allowing one to create image files from a bytea data stored in a Postgresql database.
+Desktop application allowing one to create image files from a bytea data stored in a Postgresql database.
 
 [WORK IN PROGRESS]
 
