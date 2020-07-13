@@ -1,6 +1,6 @@
-# From Binary image data to Image file
+# From Binary to Image
 
-Application allowing one to create image files from a bytea data in a Postgresql database.
+Desktopp application allowing one to create image files from a bytea data stored in a Postgresql database.
 
 [WORK IN PROGRESS]
 
@@ -14,9 +14,9 @@ We use the package `psycopg2` which requires the following dependencies:
 
 For more informations: [psycopg installation](https://www.psycopg.org/docs/install.html)
 
-## Create your ENV file
+## Create the ENV file
 
-The `.env` file must have the following variables:
+The `.env` file must have the following environment variables:
 ```sh
 DATABASE_NAME=db
 DATABASE_HOST=host
@@ -24,7 +24,6 @@ DATABASE_PORT=5432
 DATABASE_USER=user
 DATABASE_PASSWORD=password
 ```
-
 
 ## Virtual Environment Setup
 
