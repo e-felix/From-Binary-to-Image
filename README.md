@@ -14,6 +14,17 @@ We use the package `psycopg2` which requires the following dependencies:
 
 For more informations: [psycopg installation](https://www.psycopg.org/docs/install.html)
 
+## Create your ENV file
+
+The `.env` file must have the following variables:
+```sh
+DATABASE_NAME=db
+DATABASE_HOST=host
+DATABASE_PORT=5432
+DATABASE_USER=user
+DATABASE_PASSWORD=password
+```
+
 
 ## Virtual Environment Setup
 
