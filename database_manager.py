@@ -71,9 +71,12 @@ class DatabaseManager:
         self.cursor = self.connection.cursor()
         return self.connection
 
-    def find_signals_images(self):
+    def find_signals_images(self, search=None):
         """
         Returns the list of images
+
+        Parameters:
+            search (str): list of ids to search for
 
         Returns:
             result (tuple): the list of images
@@ -84,29 +87,15 @@ class DatabaseManager:
             WHERE signal_id IS NOT NULL
         """
 
+        if search:
+            query += f"""
+                AND id IN  %s
+            """
+
         try:
-            self.cursor.execute(query)
+            self.cursor.execute(query, (search,))
             result = self.cursor.fetchall()
-            logging.info(f"Query find_users: {self.SUCCESS_MESSAGE}")
+            logging.info(f"Query find_signals_images: {self.SUCCESS_MESSAGE}")
             return result
         except OperationalError as e:
-            logging.error(f"Query find_users: {self.ERROR_MESSAGE} {e}")
-
-    def delete_signal_documents_of_inactive_users_from_database(self, signalsId):
-        """
-        Delete the documents of inactive users
-
-        Parameters:
-            signalsId (string): the list of signal Ids
-        """
-        query = f"""
-            DELETE FROM document
-            WHERE signal_id IN ({signalsId})
-        """
-
-        try:
-            self.cursor.execute(query)
-            self.connection.commit()
-            logging.info(f"Query delete_signal_documents_of_inactive_users_from_database: {self.SUCCESS_MESSAGE}")
-        except OperationalError as e:
-            logging.error(f"Query delete_signal_documents_of_inactive_users_from_database: {self.ERROR_MESSAGE} {e}")
+            logging.error(f"Query find_signals_images: {self.ERROR_MESSAGE} {e}")

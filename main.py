@@ -39,9 +39,22 @@ class Application(tk.Frame):
         Display frame buttons on left side
         """
         self.frame_buttons = tk.Frame(self.app, width=200, bg=self.SECONDARY_COLOR)
-        button_fetch = tk.Button(
+        entry_search = tk.Entry(
             self.frame_buttons,
-            text="Fetch Images",
+            fg=self.TERTIARY_COLOR,
+            bg=self.PRIMARY_COLOR
+        )
+        entry_search.insert(0, "Search Ids...")
+        button_search = tk.Button(
+            self.frame_buttons,
+            text="Search",
+            fg=self.TERTIARY_COLOR,
+            bg=self.PRIMARY_COLOR,
+            command=lambda: self.fetchImages(entry_search.get())
+        )
+        button_fetch_all = tk.Button(
+            self.frame_buttons,
+            text="Fetch All Images",
             fg=self.TERTIARY_COLOR,
             bg=self.PRIMARY_COLOR,
             command=self.fetchImages
@@ -61,9 +74,11 @@ class Application(tk.Frame):
             command=self.app.destroy
         )
 
-        button_fetch.grid(row=0, column=0, sticky="ew", padx=5, pady=10)
-        button_save_all.grid(row=1, column=0, sticky="ew", padx=5)
-        button_quit.grid(row=2, column=0, sticky="ew", padx=5, pady=10)
+        entry_search.grid(row=0, column=0, sticky="ew", padx=5, pady=10)
+        button_search.grid(row=1, column=0, sticky="ew", padx=5)
+        button_fetch_all.grid(row=2, column=0, sticky="ew", padx=5, pady=10)
+        button_save_all.grid(row=3, column=0, sticky="ew", padx=5)
+        button_quit.grid(row=4, column=0, sticky="ew", padx=5, pady=10)
 
         self.frame_buttons.grid(row=0, column=0, sticky="ns")
 
@@ -74,19 +89,22 @@ class Application(tk.Frame):
         self.frame_canvas = tk.Frame(self.app, bg=self.PRIMARY_COLOR)
         self.frame_canvas.grid(row=0, column=1, sticky="nsew")
 
-    def fetchImages(self):
+    def fetchImages(self, search=None):
         """
         Fetch images from Database and display them in frame canvas
         """
         imageIndex = 0
         db = DatabaseManager()
-        self.images = db.find_signals_images()
+        if search:
+            self.images = db.find_signals_images(tuple(search.replace(" ", "").split(",")))
+        else:
+            self.images = db.find_signals_images()
 
         for i in range(0, len(self.images)):
-            if i >= self.IMAGE_PER_ROW:
-                break
-
             for j in range(self.IMAGE_PER_ROW):
+                if imageIndex >= len(self.images):
+                    break
+
                 frame = tk.Frame(
                     master=self.frame_canvas,
                     relief=tk.FLAT,
